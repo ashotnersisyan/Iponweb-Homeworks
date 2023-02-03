@@ -73,16 +73,36 @@ class DateTime(Date, Time):
         self.__time.sub_hour(h)
 
     def add_minute(self, m):
-        self.__time.add_minute(m)
+        new_min = self.__time.minute + m
+        self.add_hour(new_min // 60)
+        self.__time.minute = new_min % 60
 
     def sub_minute(self, m):
-        self.__time.sub_minute(m)
+        new_min = self.__time.minute - m
+        self.sub_hour(-(new_min // 60))
+        self.__time.minute = -(new_min // 60)*60 + new_min
 
     def add_second(self, s):
-        self.__time.add_second(s)
+        new_sec = self.__time.second + s
+        self.add_minute(new_sec // 60)
+        self.__time.second = new_sec % 60
 
     def sub_second(self, s):
-        self.__time.sub_second(s)
+        new_sec = self.__time.second - s
+        self.sub_minute(-(new_sec // 60))
+        self.__time.second = -(new_sec // 60)*60 + new_sec
+
+    # def add_minute(self, m):
+    #     self.__time.add_minute(m)
+    #
+    # def sub_minute(self, m):
+    #     self.__time.sub_minute(m)
+    #
+    # def add_second(self, s):
+    #     self.__time.add_second(s)
+    #
+    # def sub_second(self, s):
+    #     self.__time.sub_second(s)
 
     def __add__(self, other):
         result = DateTime(Date(self.__date.year, self.__date.month, self.__date.day),
@@ -119,3 +139,6 @@ datetime1.add_day(10)
 print(datetime1)
 print(datetime1+datetime2)
 print(datetime1)
+datetime3 = DateTime(Date(1996, 1, 1), Time(0, 0, 0))
+datetime3.sub_second(1)
+print(datetime3)
